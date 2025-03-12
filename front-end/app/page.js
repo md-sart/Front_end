@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link"; // Importação necessária
 
 function Texto1() {
   return <p>Um outro parágrafo de texto!</p>;
@@ -22,6 +23,10 @@ export default function Home() {
           <Texto1 />
         </>
       )}
+      <hr />
+      <Link href="/app/ex01">
+        <button>Ir para Ex01</button>
+      </Link>
     </div>
   );
 }
