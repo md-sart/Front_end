@@ -24,7 +24,7 @@ export default function Home() {
         </>
       )}
       <hr />
-      <Link href="/app/ex01">
+      <Link href="/ex01">
         <button>Ir para Ex01</button>
       </Link>
     </div>
