@@ -14,7 +14,7 @@ function Dado({ valor }) {
 
   return (
     <div>
-      <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />
+      <public src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />
     </div>
   );
 }
