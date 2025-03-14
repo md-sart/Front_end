@@ -4,17 +4,18 @@ import { useState } from "react";
 
 function Dado({ valor }) {
   const imagens = {
-    1: "/public/dado1.png",
-    2: "/public/dado2.png",
-    3: "/public/dado3.png",
-    4: "/public/dado4.png",
-    5: "/public/dado5.png",
-    6: "/public/dado6.png",
+    1: "/dado1.png",
+    2: "/dado2.png",
+    3: "/dado3.png",
+    4: "/dado4.png",
+    5: "/dado5.png",
+    6: "/dado6.png",
   };
+  
 
   return (
     <div>
-      <public src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />
+      <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />
     </div>
   );
 }
