@@ -11,7 +11,6 @@ function Dado({ valor }) {
     5: "/dado5.png",
     6: "/dado6.png",
   };
-  
 
   return (
     <div>
