@@ -4,12 +4,12 @@ import { useState } from "react";
 
 function Dado({ valor }) {
   const imagens = {
-    1: "/img/dado1.png",
-    2: "/img/dado2.png",
-    3: "/img/dado3.png",
-    4: "/img/dado4.png",
-    5: "/img/dado5.png",
-    6: "/img/dado6.png",
+    1: "/public/dado1.png",
+    2: "/public/dado2.png",
+    3: "/public/dado3.png",
+    4: "/public/dado4.png",
+    5: "/public/dado5.png",
+    6: "/public/dado6.png",
   };
 
   return (
