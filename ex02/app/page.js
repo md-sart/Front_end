@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+// Componente do dado
 function Dado({ valor }) {
   const imagens = {
     1: "/dado1.png",
@@ -15,6 +16,7 @@ function Dado({ valor }) {
   return <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />;
 }
 
+// Função para gerar número aleatório entre 1 e 6
 function gerarNumeroDado() {
   return Math.floor(Math.random() * 6) + 1;
 }
@@ -27,53 +29,45 @@ export default function Home() {
   const [dadoJogador2, setDadoJogador2] = useState(1);
   const [jogador1Rolou, setJogador1Rolou] = useState(false);
   const [jogador2Rolou, setJogador2Rolou] = useState(false);
-  const [mensagem, setMensagem] = useState("Bem-vindo ao jogo, Jogador 1 começa!");
-  const [podeAvancar, setPodeAvancar] = useState(false);
+  const [mensagem, setMensagem] = useState("Bem-vindo ao jogo! Jogador 1 começa.");
+  const [rodadaFinalizada, setRodadaFinalizada] = useState(false);
 
   function jogarDado(jogador) {
     if (jogador === 1 && !jogador1Rolou) {
-      setDadoJogador1(gerarNumeroDado());
+      const valor = gerarNumeroDado();
+      setDadoJogador1(valor);
       setJogador1Rolou(true);
       setMensagem("Você jogou, agora é a vez do Jogador 2");
     } else if (jogador === 2 && !jogador2Rolou) {
-      setDadoJogador2(gerarNumeroDado());
+      const valor = gerarNumeroDado();
+      setDadoJogador2(valor);
       setJogador2Rolou(true);
+      setMensagem("Agora vamos ver quem ganhou esta rodada...");
+      determinarVencedor();
     }
   }
 
-  function calcularVencedor() {
-    if (jogador1Rolou && jogador2Rolou) {
-      let novaMensagem = "";
+  function determinarVencedor() {
+    setTimeout(() => {
+      let msg = "Empate!";
       if (dadoJogador1 > dadoJogador2) {
         setPontosJogador1(pontosJogador1 + 1);
-        novaMensagem = "Jogador 1 ganhou 1 ponto!";
+        msg = "Jogador 1 ganhou 1 ponto!";
       } else if (dadoJogador2 > dadoJogador1) {
         setPontosJogador2(pontosJogador2 + 1);
-        novaMensagem = "Jogador 2 ganhou 1 ponto!";
-      } else {
-        novaMensagem = "Empate!";
+        msg = "Jogador 2 ganhou 1 ponto!";
       }
-      setMensagem(novaMensagem);
-      setPodeAvancar(true);
-    }
+      setMensagem(msg);
+      setRodadaFinalizada(true);
+    }, 1000);
   }
 
   function proximaRodada() {
-    if (rodada < 5) {
-      setRodada(rodada + 1);
-      setJogador1Rolou(false);
-      setJogador2Rolou(false);
-      setMensagem(`Rodada ${rodada + 1}, Jogador 1 começa!`);
-      setPodeAvancar(false);
-    } else {
-      setMensagem(
-        pontosJogador1 > pontosJogador2
-          ? "🏆 Jogador 1 ganhou!"
-          : pontosJogador2 > pontosJogador1
-          ? "🏆 Jogador 2 ganhou!"
-          : "Empate!"
-      );
-    }
+    setRodada(rodada + 1);
+    setJogador1Rolou(false);
+    setJogador2Rolou(false);
+    setRodadaFinalizada(false);
+    setMensagem(`Rodada ${rodada + 1}, Jogador 1 começa!`);
   }
 
   function reiniciarJogo() {
@@ -84,8 +78,8 @@ export default function Home() {
     setDadoJogador2(1);
     setJogador1Rolou(false);
     setJogador2Rolou(false);
-    setMensagem("Bem-vindo ao jogo, Jogador 1 começa!");
-    setPodeAvancar(false);
+    setRodadaFinalizada(false);
+    setMensagem("Bem-vindo ao jogo! Jogador 1 começa.");
   }
 
   return (
@@ -112,21 +106,21 @@ export default function Home() {
         </div>
       </div>
 
-      {jogador1Rolou && jogador2Rolou && (
-        <button onClick={calcularVencedor}>Ver Resultado</button>
-      )}
-
-      {podeAvancar && rodada < 5 && (
-        <button onClick={proximaRodada}>Próxima Rodada</button>
-      )}
-
       <hr />
       <h2>Placar: {pontosJogador1} X {pontosJogador2}</h2>
 
-      {rodada > 5 && (
-        <div>
-          <h2>{mensagem}</h2>
-          <button onClick={reiniciarJogo}>Jogar novamente</button>
+      {rodadaFinalizada && rodada < 5 && (
+        <button onClick={proximaRodada} style={{ marginTop: "10px" }}>
+          Jogar próxima rodada
+        </button>
+      )}
+
+      {rodada >= 5 && (
+        <div style={{ marginTop: "20px" }}>
+          <h2>{pontosJogador1 > pontosJogador2 ? "🏆 Jogador 1 ganhou!" : pontosJogador2 > pontosJogador1 ? "🏆 Jogador 2 ganhou!" : "Empate!"}</h2>
+          <button onClick={reiniciarJogo}>
+            Jogar novamente
+          </button>
         </div>
       )}
     </div>
