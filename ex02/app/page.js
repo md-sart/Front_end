@@ -11,6 +11,7 @@ function Dado({ valor }) {
     5: "/dado5.png",
     6: "/dado6.png",
   };
+
   return <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />;
 }
 
@@ -27,49 +28,50 @@ export default function Home() {
   const [jogador1Rolou, setJogador1Rolou] = useState(false);
   const [jogador2Rolou, setJogador2Rolou] = useState(false);
   const [mensagem, setMensagem] = useState("Bem-vindo ao jogo, Jogador 1 começa!");
-  const [rodadaFinalizada, setRodadaFinalizada] = useState(false);
+  const [podeAvancar, setPodeAvancar] = useState(false);
 
   function jogarDado(jogador) {
     if (jogador === 1 && !jogador1Rolou) {
       setDadoJogador1(gerarNumeroDado());
       setJogador1Rolou(true);
-      setMensagem("Agora é a vez do Jogador 2");
+      setMensagem("Você jogou, agora é a vez do Jogador 2");
     } else if (jogador === 2 && !jogador2Rolou) {
       setDadoJogador2(gerarNumeroDado());
       setJogador2Rolou(true);
-      definirVencedorRodada();
     }
   }
 
-  function definirVencedorRodada() {
-    setTimeout(() => {
-      let mensagemRodada = "Empate! Ninguém ganhou ponto.";
+  function calcularVencedor() {
+    if (jogador1Rolou && jogador2Rolou) {
+      let novaMensagem = "";
       if (dadoJogador1 > dadoJogador2) {
-        setPontosJogador1((prev) => prev + 1);
-        mensagemRodada = "Jogador 1 ganhou 1 ponto!";
+        setPontosJogador1(pontosJogador1 + 1);
+        novaMensagem = "Jogador 1 ganhou 1 ponto!";
       } else if (dadoJogador2 > dadoJogador1) {
-        setPontosJogador2((prev) => prev + 1);
-        mensagemRodada = "Jogador 2 ganhou 1 ponto!";
+        setPontosJogador2(pontosJogador2 + 1);
+        novaMensagem = "Jogador 2 ganhou 1 ponto!";
+      } else {
+        novaMensagem = "Empate!";
       }
-      setMensagem(mensagemRodada);
-      setRodadaFinalizada(true);
-    }, 1000);
+      setMensagem(novaMensagem);
+      setPodeAvancar(true);
+    }
   }
 
-  function avancarRodada() {
+  function proximaRodada() {
     if (rodada < 5) {
       setRodada(rodada + 1);
       setJogador1Rolou(false);
       setJogador2Rolou(false);
-      setRodadaFinalizada(false);
-      setMensagem(`Bem-vindo ao jogo, Jogador 1 começa!`);
+      setMensagem(`Rodada ${rodada + 1}, Jogador 1 começa!`);
+      setPodeAvancar(false);
     } else {
       setMensagem(
         pontosJogador1 > pontosJogador2
-          ? "🏆 Jogador 1 ganhou o jogo!"
+          ? "🏆 Jogador 1 ganhou!"
           : pontosJogador2 > pontosJogador1
-          ? "🏆 Jogador 2 ganhou o jogo!"
-          : "O jogo terminou em empate!"
+          ? "🏆 Jogador 2 ganhou!"
+          : "Empate!"
       );
     }
   }
@@ -82,34 +84,48 @@ export default function Home() {
     setDadoJogador2(1);
     setJogador1Rolou(false);
     setJogador2Rolou(false);
-    setRodadaFinalizada(false);
     setMensagem("Bem-vindo ao jogo, Jogador 1 começa!");
+    setPodeAvancar(false);
   }
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Rodada {rodada}</h1>
-      <p>{mensagem}</p>
+      <p style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>{mensagem}</p>
       <hr />
+
       <div style={{ display: "flex", justifyContent: "center", gap: "50px", margin: "20px 0" }}>
         <div>
           <h2>Jogador 1</h2>
           <Dado valor={dadoJogador1} />
-          <button onClick={() => jogarDado(1)} disabled={jogador1Rolou}>Rolar Dado</button>
+          <button onClick={() => jogarDado(1)} disabled={jogador1Rolou}>
+            {jogador1Rolou ? "Você já jogou" : "Rolar Dado"}
+          </button>
         </div>
+
         <div>
           <h2>Jogador 2</h2>
           <Dado valor={dadoJogador2} />
-          <button onClick={() => jogarDado(2)} disabled={jogador2Rolou}>Rolar Dado</button>
+          <button onClick={() => jogarDado(2)} disabled={jogador2Rolou}>
+            {jogador2Rolou ? "Você já jogou" : "Rolar Dado"}
+          </button>
         </div>
       </div>
+
+      {jogador1Rolou && jogador2Rolou && (
+        <button onClick={calcularVencedor}>Ver Resultado</button>
+      )}
+
+      {podeAvancar && rodada < 5 && (
+        <button onClick={proximaRodada}>Próxima Rodada</button>
+      )}
+
       <hr />
       <h2>Placar: {pontosJogador1} X {pontosJogador2}</h2>
-      {rodadaFinalizada && rodada < 5 && (
-        <button onClick={avancarRodada}>Próxima Rodada</button>
-      )}
-      {rodada === 5 && rodadaFinalizada && (
+
+      {rodada > 5 && (
         <div>
+          <h2>{mensagem}</h2>
           <button onClick={reiniciarJogo}>Jogar novamente</button>
         </div>
       )}
