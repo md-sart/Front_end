@@ -43,11 +43,16 @@ export default function Home() {
       setDadoJogador2(valor);
       setJogador2Rolou(true);
       setMensagem("Agora vamos ver quem ganhou esta rodada...");
-      
-      // Chamar determinarVencedor passando os valores dos dados
-      determinarVencedor(dadoJogador1, valor);
+  
+      // Aguarde o próximo render para pegar o estado atualizado
+      setTimeout(() => {
+        setDadoJogador1((dadoAtualizadoJogador1) => {
+          determinarVencedor(dadoAtualizadoJogador1, valor);
+          return dadoAtualizadoJogador1; // Retorna o mesmo valor para não alterar o estado incorretamente
+        });
+      }, 0);
     }
-  }
+  }  
   
   function determinarVencedor(valor1, valor2) {
     setTimeout(() => {
