@@ -13,7 +13,7 @@ function Dado({ valor }) {
     6: "/dado6.png",
   };
 
-  return <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />;
+  return <img src={imagens[valor]} alt={Dado mostrando ${valor}} width={100} />;
 }
 
 // Função para gerar número aleatório entre 1 e 6
@@ -43,16 +43,11 @@ export default function Home() {
       setDadoJogador2(valor);
       setJogador2Rolou(true);
       setMensagem("Agora vamos ver quem ganhou esta rodada...");
-  
-      // Aguarde o próximo render para pegar o estado atualizado
-      setTimeout(() => {
-        setDadoJogador1((dadoAtualizadoJogador1) => {
-          determinarVencedor(dadoAtualizadoJogador1, valor);
-          return dadoAtualizadoJogador1; // Retorna o mesmo valor para não alterar o estado incorretamente
-        });
-      }, 0);
+      
+      // Chamar determinarVencedor passando os valores dos dados
+      determinarVencedor(dadoJogador1, valor);
     }
-  }  
+  }
   
   function determinarVencedor(valor1, valor2) {
     setTimeout(() => {
@@ -75,7 +70,7 @@ export default function Home() {
     setJogador1Rolou(false);
     setJogador2Rolou(false);
     setRodadaFinalizada(false);
-    setMensagem(`Rodada ${rodada + 1}, Jogador 1 começa!`);
+    setMensagem(Rodada ${rodada + 1}, Jogador 1 começa!);
   }
 
   function reiniciarJogo() {
