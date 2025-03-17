@@ -37,44 +37,40 @@ export default function Home() {
       setDadoJogador1(valor);
       setJogador1Rolou(true);
       setMensagem("Você jogou, agora é a vez do Jogador 2");
-    }
-
-    if (jogador === 2 && !jogador2Rolou) {
+    } else if (jogador === 2 && !jogador2Rolou) {
       const valor = gerarNumeroDado();
       setDadoJogador2(valor);
       setJogador2Rolou(true);
       setMensagem("Agora vamos ver quem ganhou esta rodada...");
     }
+  }
 
-    // Se ambos jogaram, calcula quem venceu a rodada
-    if (jogador1Rolou && jogador2Rolou) {
-      if (dadoJogador1 > dadoJogador2) {
-        setPontosJogador1(pontosJogador1 + 1);
-      } else if (dadoJogador2 > dadoJogador1) {
-        setPontosJogador2(pontosJogador2 + 1);
-      }
+  // Efeito colateral para determinar vencedor e avançar rodada
+  if (jogador1Rolou && jogador2Rolou) {
+    setTimeout(() => {
+      setRodada((prevRodada) => prevRodada + 1);
 
-      // Avança a rodada ou finaliza o jogo
+      setPontosJogador1((prevPontos) =>
+        dadoJogador1 > dadoJogador2 ? prevPontos + 1 : prevPontos
+      );
+      setPontosJogador2((prevPontos) =>
+        dadoJogador2 > dadoJogador1 ? prevPontos + 1 : prevPontos
+      );
+
       if (rodada < 5) {
-        setTimeout(() => {
-          setRodada(rodada + 1);
-          setJogador1Rolou(false);
-          setJogador2Rolou(false);
-          setMensagem(`Rodada ${rodada + 1}, Jogador 1 começa!`);
-        }, 1000);
+        setJogador1Rolou(false);
+        setJogador2Rolou(false);
+        setMensagem(`Rodada ${rodada + 1}, Jogador 1 começa!`);
       } else {
-        // Determina o vencedor final
-        setTimeout(() => {
-          if (pontosJogador1 > pontosJogador2) {
-            setMensagem("🏆 Jogador 1 ganhou!");
-          } else if (pontosJogador2 > pontosJogador1) {
-            setMensagem("🏆 Jogador 2 ganhou!");
-          } else {
-            setMensagem("Empate!");
-          }
-        }, 1000);
+        setMensagem(
+          pontosJogador1 > pontosJogador2
+            ? "🏆 Jogador 1 ganhou!"
+            : pontosJogador2 > pontosJogador1
+            ? "🏆 Jogador 2 ganhou!"
+            : "Empate!"
+        );
       }
-    }
+    }, 1000);
   }
 
   function reiniciarJogo() {
