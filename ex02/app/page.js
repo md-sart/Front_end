@@ -43,24 +43,27 @@ export default function Home() {
       setDadoJogador2(valor);
       setJogador2Rolou(true);
       setMensagem("Agora vamos ver quem ganhou esta rodada...");
-      determinarVencedor();
+      
+      // Chamar determinarVencedor passando os valores dos dados
+      determinarVencedor(dadoJogador1, valor);
     }
   }
-
-  function determinarVencedor() {
+  
+  function determinarVencedor(valor1, valor2) {
     setTimeout(() => {
       let msg = "Empate!";
-      if (dadoJogador1 > dadoJogador2) {
-        setPontosJogador1(pontosJogador1 + 1);
+      if (valor1 > valor2) {
+        setPontosJogador1((pontos) => pontos + 1);
         msg = "Jogador 1 ganhou 1 ponto!";
-      } else if (dadoJogador2 > dadoJogador1) {
-        setPontosJogador2(pontosJogador2 + 1);
+      } else if (valor2 > valor1) {
+        setPontosJogador2((pontos) => pontos + 1);
         msg = "Jogador 2 ganhou 1 ponto!";
       }
       setMensagem(msg);
       setRodadaFinalizada(true);
     }, 1000);
   }
+  
 
   function proximaRodada() {
     setRodada(rodada + 1);
