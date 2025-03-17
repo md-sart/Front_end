@@ -13,14 +13,10 @@ function Dado({ valor }) {
     6: "/dado6.png",
   };
 
-  return (
-    <div>
-      <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />
-    </div>
-  );
+  return <img src={imagens[valor]} alt={`Dado mostrando ${valor}`} width={100} />;
 }
 
-// Função para gerar o número do dado aleatoriamente
+// Função para gerar um número aleatório de 1 a 6
 function gerarNumeroDado() {
   return Math.floor(Math.random() * 6) + 1;
 }
@@ -32,50 +28,88 @@ export default function Home() {
   const [dadoJogador1, setDadoJogador1] = useState(1);
   const [dadoJogador2, setDadoJogador2] = useState(1);
   const [vencedor, setVencedor] = useState("");
+  const [jogador1Rolou, setJogador1Rolou] = useState(false);
+  const [jogador2Rolou, setJogador2Rolou] = useState(false);
 
-  // Função para jogar o dado e determinar o vencedor da rodada
-  function jogarRodada() {
-    const dado1 = gerarNumeroDado();
-    const dado2 = gerarNumeroDado();
-
-    setDadoJogador1(dado1);
-    setDadoJogador2(dado2);
-
-    if (dado1 > dado2) {
-      setPontosJogador1(pontosJogador1 + 1);
-    } else if (dado2 > dado1) {
-      setPontosJogador2(pontosJogador2 + 1);
+  function jogarDado(jogador) {
+    if (jogador === 1) {
+      setDadoJogador1(gerarNumeroDado());
+      setJogador1Rolou(true);
+    } else {
+      setDadoJogador2(gerarNumeroDado());
+      setJogador2Rolou(true);
     }
 
-    if (rodada < 5) {
-      setRodada(rodada + 1);
-    } else {
-      if (pontosJogador1 > pontosJogador2) {
-        setVencedor("Jogador 1");
-      } else if (pontosJogador2 > pontosJogador1) {
-        setVencedor("Jogador 2");
+    // Quando ambos os jogadores rolam, calcula o vencedor da rodada
+    if (jogador1Rolou && jogador2Rolou) {
+      if (dadoJogador1 > dadoJogador2) {
+        setPontosJogador1(pontosJogador1 + 1);
+      } else if (dadoJogador2 > dadoJogador1) {
+        setPontosJogador2(pontosJogador2 + 1);
+      }
+
+      if (rodada < 5) {
+        setRodada(rodada + 1);
+        setJogador1Rolou(false);
+        setJogador2Rolou(false);
       } else {
-        setVencedor("Empate");
+        // Define o vencedor após a última rodada
+        if (pontosJogador1 > pontosJogador2) {
+          setVencedor("Jogador 1");
+        } else if (pontosJogador2 > pontosJogador1) {
+          setVencedor("Jogador 2");
+        } else {
+          setVencedor("Empate");
+        }
       }
     }
   }
 
+  function reiniciarJogo() {
+    setRodada(1);
+    setPontosJogador1(0);
+    setPontosJogador2(0);
+    setDadoJogador1(1);
+    setDadoJogador2(1);
+    setVencedor("");
+    setJogador1Rolou(false);
+    setJogador2Rolou(false);
+  }
+
   return (
-    <div>
-      <h1>Jogo de Dados</h1>
-      <p>Rodada: {rodada}/5</p>
-      <div>
-        <h2>Jogador 1</h2>
-        <Dado valor={dadoJogador1} />
-        <p>Pontos: {pontosJogador1}</p>
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h1>Rodada {rodada}</h1>
+      <hr />
+
+      <div style={{ display: "flex", justifyContent: "center", gap: "50px", margin: "20px 0" }}>
+        {/* Jogador 1 */}
+        <div>
+          <h2>Jogador 1</h2>
+          <Dado valor={dadoJogador1} />
+          <button onClick={() => jogarDado(1)} disabled={jogador1Rolou}>
+            Rolar Dado
+          </button>
+        </div>
+
+        {/* Jogador 2 */}
+        <div>
+          <h2>Jogador 2</h2>
+          <Dado valor={dadoJogador2} />
+          <button onClick={() => jogarDado(2)} disabled={jogador2Rolou}>
+            Rolar Dado
+          </button>
+        </div>
       </div>
-      <div>
-        <h2>Jogador 2</h2>
-        <Dado valor={dadoJogador2} />
-        <p>Pontos: {pontosJogador2}</p>
-      </div>
-      <button onClick={jogarRodada}>Jogar Rodada</button>
-      {vencedor && <h2>Vencedor: {vencedor}</h2>}
+
+      <hr />
+      <h2>Placar: {pontosJogador1} X {pontosJogador2}</h2>
+
+      {vencedor && (
+        <div style={{ marginTop: "20px" }}>
+          <h2>{vencedor === "Empate" ? "O jogo empatou!" : `🏆 ${vencedor} ganhou!`}</h2>
+          <button onClick={reiniciarJogo}>Jogar novamente</button>
+        </div>
+      )}
     </div>
   );
 }
