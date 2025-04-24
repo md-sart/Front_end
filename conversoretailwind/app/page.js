@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -9,32 +8,32 @@ export default function Home() {
         Escolha uma das opções abaixo para utilizar um dos nossos conversores.
       </p>
 
+      {/* BOTÕES VISUAIS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
         <Link
           href="/dolar"
-          className="bg-background text-foreground px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
+          className="bg-white text-black px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
         >
           Conversor de Dólar
         </Link>
         <Link
           href="/temperatura"
-          className="bg-background text-foreground px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
+          className="bg-white text-black px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
         >
           Conversor de Temperatura
         </Link>
         <Link
           href="/medidas"
-          className="bg-background text-foreground px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
+          className="bg-white text-black px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
         >
           Conversor de Medidas
         </Link>
       </div>
 
-      {}
       <div className="mt-auto pt-8 border-t border-white/10 w-full max-w-md text-center">
         <Link
           href="/sobre"
-          className="text-sm text-foreground hover:underline"
+          className="text-sm text-white underline underline-offset-4 hover:opacity-90 transition"
         >
           Sobre o Projeto
         </Link>
