@@ -30,7 +30,7 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* "Sobre o Projeto" posicionado como se fosse um rodapé simples */}
+      {}
       <div className="mt-auto pt-8 border-t border-white/10 w-full max-w-md text-center">
         <Link
           href="/sobre"
