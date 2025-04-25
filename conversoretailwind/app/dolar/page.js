@@ -1,21 +1,31 @@
 "use client";
+
 import { useState } from "react";
 
-export default function ConversorDolar() {
-  const [valor, setValor] = useState("");
-  const [resultadoReal, setResultadoReal] = useState("");
-  const [resultadoDolar, setResultadoDolar] = useState("");
+export default function Dolar() {
+  const cotacao = 5.68;
+  const [real, setReal] = useState("");
+  const [dolar, setDolar] = useState("");
 
-  const cotacaoDolar = 5.68;
-
-  function converter() {
-    const valorEmNumero = parseFloat(valor);
-    if (!isNaN(valorEmNumero)) {
-      setResultadoReal((valorEmNumero * cotacaoDolar).toFixed(2));
-      setResultadoDolar((valorEmNumero / cotacaoDolar).toFixed(2));
+  function handleRealChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const valor = e.target.value;
+    setReal(valor);
+    const numero = parseFloat(valor);
+    if (!isNaN(numero)) {
+      setDolar((numero / cotacao).toFixed(2));
     } else {
-      setResultadoReal("");
-      setResultadoDolar("");
+      setDolar("");
+    }
+  }
+
+  function handleDolarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const valor = e.target.value;
+    setDolar(valor);
+    const numero = parseFloat(valor);
+    if (!isNaN(numero)) {
+      setReal((numero * cotacao).toFixed(2));
+    } else {
+      setReal("");
     }
   }
 
@@ -23,23 +33,26 @@ export default function ConversorDolar() {
     <main className="min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)] text-center flex flex-col items-center gap-8">
       <h1 className="text-3xl sm:text-4xl font-bold">Conversor de Dólar</h1>
       <p className="text-lg sm:text-xl max-w-xl">
-        Aqui você poderá converter valores de Real para Dólar e vice-versa com base na cotação atual (R$ 5,68).
+        Cotação fixa do dólar em 14/04/2025: R$ 5,68
       </p>
 
-      <input
-        type="number"
-        placeholder="Digite o valor em reais"
-        className="bg-white border rounded px-4 py-2 w-full max-w-sm text-black"
-        value={valor}
-        onChange={(e) => { setValor(e.target.value); converter(); }}
-      />
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <input
+          type="number"
+          placeholder="Valor em reais (R$)"
+          className="bg-white border rounded px-4 py-2 text-black"
+          value={real}
+          onChange={handleRealChange}
+        />
 
-      <p className="text-xl font-semibold">
-        Valor em Dólar: <span className="text-green-600">${resultadoDolar}</span>
-      </p>
-      <p className="text-xl font-semibold">
-        Valor em Real: <span className="text-green-600">R${resultadoReal}</span>
-      </p>
+        <input
+          type="number"
+          placeholder="Valor em dólares (US$)"
+          className="bg-white border rounded px-4 py-2 text-black"
+          value={dolar}
+          onChange={handleDolarChange}
+        />
+      </div>
     </main>
   );
 }
