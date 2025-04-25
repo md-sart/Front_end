@@ -32,7 +32,7 @@ export default function Home() {
       <div className="mt-auto pt-8 border-t border-white/10 w-full max-w-md text-center">
         <Link
           href="/sobre"
-          className="text-sm text-white underline underline-offset-4 hover:opacity-90 transition"
+          className="text-4xl font-bold text-white underline underline-offset-4 hover:opacity-90 transition"
         >
           Sobre o Projeto
         </Link>
