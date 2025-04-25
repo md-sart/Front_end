@@ -2,42 +2,55 @@
 import { useState } from "react";
 
 export default function ConversorTemperatura() {
-  const [valor, setValor] = useState("");
-  const [resultado, setResultado] = useState("");
+  const [celsius, setCelsius] = useState("");
+  const [fahrenheit, setFahrenheit] = useState("");
 
-  function converterTemperatura() {
-    const celsius = parseFloat(valor);
-    if (isNaN(celsius)) return setResultado("Digite um número válido.");
+  function handleCelsiusChange(e) {
+    const valor = e.target.value;
+    setCelsius(valor);
+    const numero = parseFloat(valor);
+    if (!isNaN(numero)) {
+      setFahrenheit(((numero * 9) / 5 + 32).toFixed(2));
+    } else {
+      setFahrenheit("");
+    }
+  }
 
-    const fahrenheit = (celsius * 9) / 5 + 32;
-    setResultado(`${celsius}°C = ${fahrenheit.toFixed(2)}°F`);
+  function handleFahrenheitChange(e) {
+    const valor = e.target.value;
+    setFahrenheit(valor);
+    const numero = parseFloat(valor);
+    if (!isNaN(numero)) {
+      setCelsius((((numero - 32) * 5) / 9).toFixed(2));
+    } else {
+      setCelsius("");
+    }
   }
 
   return (
     <main className="min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center gap-6 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-3xl font-bold">Conversor de Temperatura</h1>
-      <p className="text-lg sm:text-xl max-w-xl">
-        Aqui você poderá converter temperaturas de celsius para fahrenheit.
+      <p className="text-lg sm:text-xl max-w-xl text-center">
+        Converta entre Celsius (°C) e Fahrenheit (°F) automaticamente.
       </p>
-      <input
-        type="number"
-        placeholder="Digite a temperatura em °C"
-        className="bg-white border rounded px-4 py-2 w-full max-w-sm text-black"
-        value={valor}
-        onChange={(e) => setValor(e.target.value)}
-      />
-      <button
-        onClick={converterTemperatura}
-        className="bg-foreground text-background rounded px-6 py-2 hover:opacity-90 transition"
-      >
-        Converter
-      </button>
-      
-      {resultado && (
-        <p className="text-xl font-semibold text-center">
-          Temperatura em fahrenheit: <span className="text-green-600">{resultado}</span>
-        </p>
-      )}
+
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <input
+          type="number"
+          placeholder="Temperatura em °C"
+          className="bg-white border rounded px-4 py-2 text-black"
+          value={celsius}
+          onChange={handleCelsiusChange}
+        />
+
+        <input
+          type="number"
+          placeholder="Temperatura em °F"
+          className="bg-white border rounded px-4 py-2 text-black"
+          value={fahrenheit}
+          onChange={handleFahrenheitChange}
+        />
+      </div>
     </main>
   );
 }
