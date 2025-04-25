@@ -19,7 +19,7 @@ export default function ConversorMedidas() {
       <input
         type="number"
         placeholder="Digite o valor em metros"
-        className="border rounded px-4 py-2 w-full max-w-sm text-black"
+        className="bg-white border rounded px-4 py-2 w-full max-w-sm text-black"
         value={valor}
         onChange={(e) => setValor(e.target.value)}
       />
