@@ -2,43 +2,54 @@
 import { useState } from "react";
 
 export default function ConversorMedidas() {
-  const [valor, setValor] = useState("");
-  const [resultado, setResultado] = useState("");
+  const [metros, setMetros] = useState("");
+  const [centimetros, setCentimetros] = useState("");
 
-  function converterMetrosParaCentimetros() {
-    const metros = parseFloat(valor);
-    if (isNaN(metros)) return setResultado("Digite um número válido.");
+  function handleMetrosChange(e) {
+    const valor = e.target.value;
+    setMetros(valor);
+    const numero = parseFloat(valor);
+    if (!isNaN(numero)) {
+      setCentimetros((numero * 100).toFixed(2));
+    } else {
+      setCentimetros("");
+    }
+  }
 
-    const centimetros = metros * 100;
-    setResultado(`${metros} m = ${centimetros} cm`);
+  function handleCentimetrosChange(e) {
+    const valor = e.target.value;
+    setCentimetros(valor);
+    const numero = parseFloat(valor);
+    if (!isNaN(numero)) {
+      setMetros((numero / 100).toFixed(2));
+    } else {
+      setMetros("");
+    }
   }
 
   return (
     <main className="min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center gap-6 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-3xl font-bold">Conversor de Medidas</h1>
-      <p className="text-lg sm:text-xl max-w-xl">
-        Aqui você poderá converter metros para centímetros.
+      <p className="text-lg sm:text-xl max-w-xl text-center">
+        Converta automaticamente entre metros e centímetros.
       </p>
-      <input
-        type="number"
-        placeholder="Digite o valor em metros"
-        className="bg-white border rounded px-4 py-2 w-full max-w-sm text-black"
-        value={valor}
-        onChange={(e) => setValor(e.target.value)}
-      />
-      <button
-        onClick={converterMetrosParaCentimetros}
-        className="bg-foreground text-background rounded px-6 py-2 hover:opacity-90 transition"
-      >
-        Converter
-      </button>
-      
-      {resultado && (
-      <p className="text-xl font-semibold text-center">
-        Medida em centímetros: <span className="text-green-600">{resultado}</span>
-      </p>
-    )}
 
+      <div className="flex flex-col gap-4 w-full max-w-sm">
+        <input
+          type="number"
+          placeholder="Metros (m)"
+          className="bg-white border rounded px-4 py-2 text-black"
+          value={metros}
+          onChange={handleMetrosChange}
+        />
+        <input
+          type="number"
+          placeholder="Centímetros (cm)"
+          className="bg-white border rounded px-4 py-2 text-black"
+          value={centimetros}
+          onChange={handleCentimetrosChange}
+        />
+      </div>
     </main>
   );
 }
