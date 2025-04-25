@@ -8,8 +8,7 @@ export default function Home() {
         Escolha uma das opções abaixo para utilizar um dos nossos conversores.
       </p>
 
-      {/* BOTÕES VISUAIS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
         <Link
           href="/dolar"
           className="bg-white text-black px-6 py-3 rounded-xl font-medium shadow hover:opacity-90 transition"
