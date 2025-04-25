@@ -7,7 +7,7 @@ export default function Dolar() {
   const [real, setReal] = useState("");
   const [dolar, setDolar] = useState("");
 
-  function handleRealChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleRealChange(e) {
     const valor = e.target.value;
     setReal(valor);
     const numero = parseFloat(valor);
@@ -18,7 +18,7 @@ export default function Dolar() {
     }
   }
 
-  function handleDolarChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleDolarChange(e) {
     const valor = e.target.value;
     setDolar(valor);
     const numero = parseFloat(valor);
