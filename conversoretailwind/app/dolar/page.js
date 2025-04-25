@@ -30,7 +30,7 @@ export default function Dolar() {
   }
 
   return (
-    <main className="min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)] text-center flex flex-col items-center gap-8">
+    <main className="min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center gap-8 font-[family-name:var(--font-geist-sans)] text-center">
       <h1 className="text-3xl sm:text-4xl font-bold">Conversor de Dólar</h1>
       <p className="text-lg sm:text-xl max-w-xl">
         Converta automaticamente entre real e dólar
