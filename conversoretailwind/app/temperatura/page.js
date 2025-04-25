@@ -16,6 +16,9 @@ export default function ConversorTemperatura() {
   return (
     <main className="min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center gap-6 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-3xl font-bold">Conversor de Temperatura</h1>
+      <p className="text-lg sm:text-xl max-w-xl">
+        Aqui você poderá converter temperaturas de celsius para fahrenheit.
+      </p>
       <input
         type="number"
         placeholder="Digite a temperatura em °C"
@@ -29,8 +32,11 @@ export default function ConversorTemperatura() {
       >
         Converter
       </button>
+      
       {resultado && (
-        <p className="mt-4 text-xl font-medium text-center">{resultado}</p>
+        <p className="text-xl font-semibold text-center">
+          Temperatura em fahrenheit: <span className="text-green-600">{resultado}</span>
+        </p>
       )}
     </main>
   );

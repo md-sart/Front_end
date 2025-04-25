@@ -16,6 +16,9 @@ export default function ConversorMedidas() {
   return (
     <main className="min-h-screen p-8 sm:p-20 flex flex-col items-center justify-center gap-6 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-3xl font-bold">Conversor de Medidas</h1>
+      <p className="text-lg sm:text-xl max-w-xl">
+        Aqui você poderá converter metros para centímetros.
+      </p>
       <input
         type="number"
         placeholder="Digite o valor em metros"
@@ -29,9 +32,13 @@ export default function ConversorMedidas() {
       >
         Converter
       </button>
+      
       {resultado && (
-        <p className="mt-4 text-xl font-medium text-center">{resultado}</p>
-      )}
+      <p className="text-xl font-semibold text-center">
+        Medida em centímetros: <span className="text-green-600">{resultado}</span>
+      </p>
+    )}
+
     </main>
   );
 }

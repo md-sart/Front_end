@@ -38,7 +38,7 @@ export default function Dolar() {
       >
         Converter
       </button>
-
+      
       {resultado && (
         <p className="text-xl font-semibold">
           Valor em Dólar: <span className="text-green-600">${resultado}</span>
